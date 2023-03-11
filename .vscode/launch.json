@@ -1,21 +1,28 @@
 {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "cortex-debug",
+            "type": "probe-rs-debug",
             "request": "launch",
-            "preLaunchTask": "build",
-            "servertype": "openocd",
-            "cwd": "${workspaceRoot}",
-            "executable": "./target/thumbv7em-none-eabihf/debug/rust-stm32f4-disco-blinky",
-            "name": "Debug (OpenOCD)",
-            "device": "STM32F429ZIT6",
-            "configFiles": [
-                "interface/stlink.cfg",
-                "target/stm32f4x.cfg"
-            ],
-            "runToEntryPoint": "main",
-            "svdFile": "STM32F429x.svd"
+            "name": "probe-rs Test",
+            "cwd": "${workspaceFolder}",
+            "connectUnderReset": true,
+            "chip": "STM32F429ZITx",
+            "flashingConfig": {
+                "flashingEnabled": true,
+                "resetAfterFlashing": true,
+                "haltAfterReset": true
+            },
+            "coreConfigs": [
+                {
+                    "coreIndex": 0,
+                    "programBinary": "./target/thumbv7em-none-eabihf/debug/${workspaceFolderBasename}",
+                    "svdFile": "./STM32F429x.svd"
+                }
+            ]
         }
     ]
 }

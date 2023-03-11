@@ -10,12 +10,12 @@ use stm32f4xx_hal as hal;
 use hal::{prelude::*,
           pac::{interrupt, Interrupt, Peripherals, TIM2},
           timer::{Event, CountDownTimer, Timer},
-          gpio::{gpiog::{PG13, PG14}, Output, PushPull}};
+          gpio::{gpiob::{PB0, PB14}, Output, PushPull}};
 
 static BLINKY : Mutex<Cell<BlinkState>> = Mutex::new(Cell::new(BlinkState::OnOff));
 static TIMER: Mutex<RefCell<Option<CountDownTimer<TIM2>>>> = Mutex::new(RefCell::new(None));
-static LED_GREEN : Mutex<RefCell<Option<PG13<Output<PushPull>>>>> = Mutex::new(RefCell::new(None));
-static LED_RED : Mutex<RefCell<Option<PG14<Output<PushPull>>>>> = Mutex::new(RefCell::new(None));
+static LED_GREEN : Mutex<RefCell<Option<PB0<Output<PushPull>>>>> = Mutex::new(RefCell::new(None));
+static LED_RED : Mutex<RefCell<Option<PB14<Output<PushPull>>>>> = Mutex::new(RefCell::new(None));
 
 #[derive(Clone, Copy)]
 enum BlinkState {
@@ -37,12 +37,12 @@ fn main() -> ! {
         .pclk2(90.mhz())
         .freeze();
 
-    let gpiog_periph = device_periphs.GPIOG.split();
+    let gpiog_periph = device_periphs.GPIOB.split();
 
-    let mut _led_green = gpiog_periph.pg13.into_push_pull_output();
+    let mut _led_green = gpiog_periph.pb0.into_push_pull_output();
     _led_green.set_high();
 
-    let mut _led_red = gpiog_periph.pg14.into_push_pull_output();
+    let mut _led_red = gpiog_periph.pb14.into_push_pull_output();
     _led_red.set_low();
 
     // Create a 1s periodic interrupt from TIM2
