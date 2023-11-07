@@ -5,9 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "preLaunchTask": "rust: cargo build",
             "type": "probe-rs-debug",
             "request": "launch",
-            "name": "probe-rs Test",
+            "name": "rust: debug",
             "cwd": "${workspaceFolder}",
             "connectUnderReset": true,
             "chip": "STM32F429ZITx",
