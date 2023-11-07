@@ -3,8 +3,8 @@
 [target.'cfg(all(target_arch = "arm", target_os = "none"))']
 # make `cargo run` start a GDB session
 # runner = "arm-none-eabi-gdb -q -x openocd.gdb"
-runner = "probe-run --chip STM32F429ZITx"
-
+# runner = "probe-run --chip STM32F429ZITx"
+runner = "probe-rs run --chip STM32F429ZITx --connect-under-reset"
 
 rustflags = [
   # This is needed if your flash or ram addresses are not aligned to 0x10000 in memory.x

@@ -19,7 +19,7 @@
             "coreConfigs": [
                 {
                     "coreIndex": 0,
-                    "programBinary": "./target/thumbv7em-none-eabihf/debug/${workspaceFolderBasename}",
+                    "programBinary": "target/thumbv7em-none-eabihf/debug/rust-stm32f4-disco-blinky",
                     "svdFile": "./STM32F429x.svd"
                 }
             ]
