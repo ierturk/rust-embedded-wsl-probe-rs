@@ -1,5 +1,5 @@
 [package]
-authors = ["aholzbaur <71641117+aholzbaur@users.noreply.github.com>"]
+authors = ["ierturk me@erturk.me>"]
 edition = "2021"
 readme = "README.md"
 name = "rust-stm32f4-disco-blinky"
