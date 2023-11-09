@@ -1,0 +1,8 @@
+[default.general]
+chip = "STM32F429ZITx"
+
+[default.rtt]
+enabled = true
+
+[default.gdb]
+enabled = false
