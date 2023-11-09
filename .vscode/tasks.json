@@ -4,6 +4,10 @@
 		{
 			"type": "cargo",
 			"command": "build",
+			"args": [
+				"--bin",
+				"blinky"
+			],
 			"problemMatcher": [
 				"$rustc"
 			],
@@ -12,6 +16,18 @@
 				"isDefault": true
 			},
 			"label": "rust: cargo build"
+		},
+		{
+			"type": "cargo",
+			"command": "clean",
+			"problemMatcher": [
+				"$rustc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"label": "rust: cargo clean"
 		}
 	]
 }

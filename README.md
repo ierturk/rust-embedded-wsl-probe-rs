@@ -1,8 +1,8 @@
-# Blinky example in Rust on the STM32F429-Discovery board with probe-rs on VSCode
+# Blinky example in Rust Embassy Async RTOS on the STM32F429-Discovery board with probe-rs on VSCode
 
 [Associated post](https://erturk.me/projects/working-with-rust-embedded-on-wsl/)
 
-Small project example to be used as template for embedded software in Rust on the STM32F429-Discovery board.
+Small project by using Ebassy Async RTOS
 
 If everything is installed properly, the workspace can be opened in VS Code and a hit on F5 should build the project without errors or warnings and automatically start a debug session. The program should be halted at the breakpoint at main().
 
@@ -19,10 +19,11 @@ ___
 - WSL plugin for VSCode[^8]
 - GitHUB repository[^9]
 - STM32F429ZI Discovery Board[^10]
+- Embassy OS[^11]
 
 ___
 ### Setup
-- Install WSL[^11] and an Ubuntu 22.04.2 LTS[^12] instance from Windows Store
+- Install WSL[^12] and an Ubuntu 22.04.2 LTS[^13] instance from Windows Store
 - Download and install usbpid-win from the Github repository[^2]
 - Run the WSL instance on a windows commandline as follow
 ```
@@ -95,10 +96,13 @@ Thank you for reading.
 
 [^8]: [WSL plugin for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
 
-[^9]: [GitHUB repository](https://github.com/ierturk/rust-embedded-wsl-probe-rs)
+[^9]: [GitHUB repository](https://github.com/ierturk/rust-stm32f4-embassy)
 
 [^10]: [STM32F429ZI Discovery Board](https://www.st.com/en/evaluation-tools/32f429idiscovery.html)
 
-[^11]: [WSL - Windows Subsystem for Linux](https://apps.microsoft.com/detail/windows-subsystem-for-linux/9P9TQF7MRM4R?hl=en-gb&gl=US)
+[^11]: [Embassy OS](https://embassy.dev/)
 
-[^12]: [Ubuntu 22.04.2 LTS](https://apps.microsoft.com/detail/9PN20MSR04DW?hl=en-gb&gl=US)
+[^12]: [WSL - Windows Subsystem for Linux](https://apps.microsoft.com/detail/windows-subsystem-for-linux/9P9TQF7MRM4R?hl=en-gb&gl=US)
+
+[^13]: [Ubuntu 22.04.2 LTS](https://apps.microsoft.com/detail/9PN20MSR04DW?hl=en-gb&gl=US)
+
