@@ -6,6 +6,7 @@ use core::cell::RefCell;
 use defmt::*;
 use display::Display;
 use embassy_executor::Spawner;
+use embassy_stm32::exti::ExtiInput;
 use embassy_stm32::{gpio, peripherals};
 use embassy_sync::blocking_mutex::raw::{CriticalSectionRawMutex, ThreadModeRawMutex};
 use embassy_sync::blocking_mutex::Mutex;
@@ -24,7 +25,7 @@ use embedded_graphics::{
 mod display;
 
 type LedOutput = Output<'static, peripherals::PG13>;
-type ButtonInput = Input<'static, peripherals::PA0>;
+type ButtonInput = ExtiInput<'static, peripherals::PA0>;
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
@@ -32,12 +33,14 @@ async fn main(spawner: Spawner) {
 
     let p = embassy_stm32::init(Default::default());
     let led: LedOutput = Output::new(p.PG13, Level::Low, Speed::Low);
-    let button: ButtonInput = Input::new(p.PA0, Pull::Up);
+
+    let button = Input::new(p.PA0, Pull::None);
+    let mut button: ButtonInput = ExtiInput::new(button, p.EXTI0);
 
     let display = display::init(p.PF9, p.PF7, p.PC2, p.PG14, p.PD13, p.SPI5);
 
     unwrap!(spawner.spawn(blinker(led, Duration::from_millis(500))));
-    // unwrap!(spawner.spawn(button_monitor(button)));
+    unwrap!(spawner.spawn(button_monitor(button)));
     unwrap!(spawner.spawn(display_refresh(display)));
 }
 
@@ -57,7 +60,7 @@ async fn blinker(mut led: LedOutput, interval: Duration) {
 #[embassy_executor::task]
 async fn button_monitor(mut button: ButtonInput) {
     loop {
-        // button.wait_for_any_edge().await;
+        button.wait_for_any_edge().await;
         let level = button.get_level();
         display_state_update(|mut s| s.indicator2 = level == Level::High);
     }
