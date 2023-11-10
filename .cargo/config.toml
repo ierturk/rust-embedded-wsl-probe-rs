@@ -5,4 +5,4 @@ runner = "probe-rs run --chip STM32F429ZITx --connect-under-reset"
 target = "thumbv7em-none-eabihf"
 
 [env]
-DEFMT_LOG = "trace"
+# DEFMT_LOG = "trace"

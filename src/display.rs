@@ -45,7 +45,7 @@ pub fn init(
 
     let display_spi = {
         let mut config = spi::Config::default();
-        config.frequency = Hertz(16_000_000);
+        config.frequency = Hertz(1_000_000);
         config.mode = ili9341::SPI_MODE;
         spi::Spi::new_txonly(spi, clk, mosi, NoDma, NoDma, config)
     };

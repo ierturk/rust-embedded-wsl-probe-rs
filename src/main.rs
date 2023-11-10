@@ -7,7 +7,8 @@ use defmt::*;
 use display::Display;
 use embassy_executor::Spawner;
 use embassy_stm32::exti::ExtiInput;
-use embassy_stm32::{gpio, peripherals};
+use embassy_stm32::time::Hertz;
+use embassy_stm32::{gpio, peripherals, Config};
 use embassy_sync::blocking_mutex::raw::{CriticalSectionRawMutex, ThreadModeRawMutex};
 use embassy_sync::blocking_mutex::Mutex;
 use embassy_sync::signal::Signal;
@@ -31,11 +32,33 @@ type ButtonInput = ExtiInput<'static, peripherals::PA0>;
 async fn main(spawner: Spawner) {
     info!("Program start");
 
-    let p = embassy_stm32::init(Default::default());
+    let mut config = Config::default();
+    {
+        use embassy_stm32::rcc::*;
+        config.rcc.hse = Some(Hse {
+            freq: Hertz(8_000_000),
+            mode: HseMode::Bypass,
+        });
+        config.rcc.pll_src = PllSource::HSE;
+        config.rcc.pll = Some(Pll {
+            prediv: PllPreDiv::DIV4,
+            mul: PllMul::MUL168,
+            divp: Some(Pllp::DIV2), // 8mhz / 4 * 168 / 2 = 168Mhz.
+            divq: Some(Pllq::DIV7), // 8mhz / 4 * 168 / 7 = 48Mhz.
+            divr: None,
+        });
+        config.rcc.ahb_pre = AHBPrescaler::DIV1;
+        config.rcc.apb1_pre = APBPrescaler::DIV4;
+        config.rcc.apb2_pre = APBPrescaler::DIV2;
+        config.rcc.sys = Sysclk::PLL1_P;
+    }
+    let p = embassy_stm32::init(config);
+
+    // let p = embassy_stm32::init(Default::default());
     let led: LedOutput = Output::new(p.PG13, Level::Low, Speed::Low);
 
     let button = Input::new(p.PA0, Pull::None);
-    let mut button: ButtonInput = ExtiInput::new(button, p.EXTI0);
+    let button: ButtonInput = ExtiInput::new(button, p.EXTI0);
 
     let display = display::init(p.PF9, p.PF7, p.PC2, p.PG14, p.PD13, p.SPI5);
 
@@ -50,7 +73,7 @@ async fn blinker(mut led: LedOutput, interval: Duration) {
     let mut blink = false;
     loop {
         led.set_level(if blink { Level::Low } else { Level::High });
-        display_state_update(|mut s| s.indicator1 = blink);
+        display_state_update(|s| s.indicator1 = blink);
         blink = !blink;
         Timer::after(interval).await;
     }
@@ -62,7 +85,7 @@ async fn button_monitor(mut button: ButtonInput) {
     loop {
         button.wait_for_any_edge().await;
         let level = button.get_level();
-        display_state_update(|mut s| s.indicator2 = level == Level::High);
+        display_state_update(|s| s.indicator2 = level == Level::High);
     }
 }
 
@@ -100,7 +123,7 @@ where
 }
 
 fn render_background(display: &mut Display) {
-    let test_text = "Pixel Blinky";
+    let test_text = "Erturk Me";
 
     Rectangle::new(Point::new(0, 0), Size::new(320, 240))
         .into_styled(display.styles.black_fill)
