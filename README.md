@@ -75,6 +75,7 @@ Then it should be displayed following screen
 ![VSCode DEbug Screen](docs/images/vscode-debug-wsl.png)
 ___
 ### Conclusion
+![LCD Demo](docs/images/lcd-demo.jpeg)
 It just woks as you can see. Yo can work on this and modify some parts according to your requirements.
 
 Hope you enjoyed with the tutorial, found useful.
