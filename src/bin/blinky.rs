@@ -20,13 +20,18 @@ async fn main(_spawner: Spawner) {
     let p = embassy_stm32::init(Default::default());
     info!("Hello World!");
 
-    let mut led_green = Output::new(p.PG13, Level::High, Speed::Low);
+    let mut led_green = Output::new(p.PG13, Level::Low, Speed::Low);
     let mut led_red = Output::new(p.PG14, Level::Low, Speed::Low);
 
     loop {
-        info!("toggle");
-        led_green.toggle();
-        led_red.toggle();
+        info!("Green");
+        led_green.set_high();
+        led_red.set_low();
+        Timer::after_millis(1000).await;
+
+        info!("Red");
+        led_green.set_low();
+        led_red.set_high();
         Timer::after_millis(1000).await;
     }
 }
