@@ -62,7 +62,7 @@ async fn main(spawner: Spawner) {
 
     let display = display::init(p.PF9, p.PF7, p.PC2, p.PG14, p.PD13, p.SPI5);
 
-    unwrap!(spawner.spawn(blinker(led, Duration::from_millis(500))));
+    unwrap!(spawner.spawn(blinker(led, Duration::from_millis(1000))));
     unwrap!(spawner.spawn(button_monitor(button)));
     unwrap!(spawner.spawn(display_refresh(display)));
 }
@@ -132,7 +132,7 @@ fn render_background(display: &mut Display) {
 
     Text::with_text_style(
         test_text,
-        Point::new(60, 0),
+        Point::new(80, 0),
         display.styles.char,
         display.styles.text,
     )

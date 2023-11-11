@@ -20,7 +20,7 @@
             "coreConfigs": [
                 {
                     "coreIndex": 0,
-                    "programBinary": "target/thumbv7em-none-eabihf/debug/blinky",
+                    "programBinary": "./target/thumbv7em-none-eabihf/debug/stm32f4-embassy",
                     "svdFile": "./STM32F429x.svd"
                 }
             ]
